@@ -6,7 +6,6 @@ import com.globallogic.challenge.domain.models.SignupRequest;
 import com.globallogic.challenge.domain.models.SignupResponse;
 import com.globallogic.challenge.domain.repositories.UserRepository;
 
-@Service
 public class UserServiceImpl<T> implements CrudService<SignupRequest, SignupResponse> {
 
   private UserRepository userRepository;

@@ -6,8 +6,6 @@ import com.globallogic.challenge.domain.models.SignupRequest;
 import com.globallogic.challenge.domain.models.SignupResponse;
 import com.globallogic.challenge.domain.repositories.UserRepository;
 
-
-@Service
 public class CreateUserServiceImpl implements CreateUserService {
 
   private UserRepository userRepository;
