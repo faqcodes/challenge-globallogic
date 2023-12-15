@@ -2,14 +2,19 @@ package com.globallogic.challenge.domain.entities;
 
 import java.time.LocalDateTime;
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
 public class UserEntity {
-  private String id;
-  private LocalDateTime created;
-  private LocalDateTime lastLogin;
-  private String token;
-  private Boolean isActive;
-  private String name;
-  private String email;
-  private String password;
-  private PhoneEntity[] phones;
+  private final String id;
+  private final LocalDateTime created;
+  private final LocalDateTime lastLogin;
+  private final String token;
+  private final Boolean isActive;
+  private final String name;
+  private final String email;
+  private final String password;
+  private final PhoneEntity[] phones;
 }

@@ -14,15 +14,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtTokenProvider {
 
+    private static final Long EXPIRATION = 300000l; // 5 minutos
     private static final String SECRET = "dSlAs6kziO4wvjf3DGRrF2rj3w32tuWbSzM6xWFS9/Y=";
-    private static final Long EXPIRATION = 3600000l;
 
-    public String createToken(String username) {
+    public String createToken(String userId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION);
 
         return Jwts.builder()
-                .setSubject(username)
+                // .setClaims(claims)
+                .setSubject(userId)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -56,4 +57,5 @@ public class JwtTokenProvider {
 
         return new UsernamePasswordAuthenticationToken(username, null, null);
     }
+
 }
