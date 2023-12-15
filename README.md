@@ -38,3 +38,78 @@ Este es un intento previo para probar el funcionamiento y visualización de los 
 ## Implementación
 
 ## Modo de uso
+
+Para la ejecución del proyecto se deben seguir los siguientes pasos.
+
+Clonar el proyecto desde github
+```
+git clone git@github.com:faqcodes/challenge-globallogic.git
+
+cd challenge-globallogic
+```
+
+Construir el proyecto
+```
+./gradlew build
+```
+
+Ejecutar el proyecto. Se ejecutar las pruebas de la solución y se desplegará en el puerto <b>8080<b>
+
+```
+./gradlew bootRun
+```
+
+El proyecto usa H2 en memoria como base de datos. Al momento de detener la aplicación, toda la información se eliminará.
+
+## cURL para interactuar con la API
+
+Registrar un usuario: POST 'http://localhost:8080/api/sign-up'
+```
+curl --location 'http://localhost:8080/api/sign-up' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "andrea",
+    "email": "andrea@test1.cl",
+    "password": "andreaAN1",
+    "phones": [
+        {
+            "number": 123456789,
+            "cityCode": 34,
+            "countryCode": "+56"
+        }
+    ]
+
+}'
+```
+### Una vez registrado, se responderá con un TOKEN, el que debe ser pasado para iniciar sesión
+
+Iniciar sesión: POST 'http://localhost:8080/api/login'
+
+```
+curl --location --request POST 'http://localhost:8080/api/login' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZGMzN2JiYS01NzVjLTQ1MTUtYjRhNy1iOGRmNmE0NTA0ZWQiLCJpYXQiOjE3MDI2MTc3MDksImV4cCI6MTcwMjYxODAwOX0.afUH1nJN0Nf64yz5vuKjvHk4MU4-J_LtFLbmeOuOzFKG3SNmWit3jZ_LJr-31avlQSJPZy9c7yPwe6FsZx-e8w'
+```
+
+ERROR al registrar un usuario (falta correo electrónico)
+```
+curl --location 'http://localhost:8080/api/sign-up' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "andrea",
+    "password": "andreaAN1",
+    "phones": [
+        {
+            "number": 123456789,
+            "cityCode": 34,
+            "countryCode": "+56"
+        }
+    ]
+
+}'
+```
+
+ERROR al iniciar sesión (token inválido)
+```
+curl --location --request POST 'http://localhost:8080/api/login' \
+--header 'Authorization: Bearer eyJhbGciOiJeIUfdfsfds01NzVjLTQ1MTUtYjRhNy1iOGRmNmE0NTA0ZWQiLCJpYXQiOjE3MDI2MTc3MDksImV4cCI6MTcwMjYxODAwOX0.afUH1nJN0Nf64yz5vuKjvHk4MU4-J_LtFLbmeOuOzFKG3SNmWit3jZ_LJr-31avlQSJPZy9c7yPwe6FsZx-e8w'
+```

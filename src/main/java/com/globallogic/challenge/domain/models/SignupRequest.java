@@ -24,7 +24,7 @@ public class SignupRequest {
   @NotNull(message = "Debe ingresar una contraseña")
   @NotBlank(message = "Debe ingresar una contraseña")
   @NotEmpty(message = "Debe ingresar una contraseña")
-  @Pattern(regexp = "^([a-z0-9A-Z]){8,12}$", message = "La contraseña no es válida")
+  @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,12}$", message = "La contraseña no es válida")
   private final String password;
 
   private final PhoneEntity[] phones;
