@@ -7,9 +7,11 @@ import javax.validation.constraints.Pattern;
 
 import com.globallogic.challenge.domain.entities.PhoneEntity;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SignupRequest {
   private final String name;
 
@@ -23,9 +25,6 @@ public class SignupRequest {
   @NotBlank(message = "Debe ingresar una contraseña")
   @NotEmpty(message = "Debe ingresar una contraseña")
   @Pattern(regexp = "^([a-z0-9A-Z]){8,12}$", message = "La contraseña no es válida")
-  // @Pattern(regexp =
-  // "^(?=(?:[^A-Z]*[A-Z]){1})(?=(?:\\D*\\d){2})(?=[a-z]{8,12}$).*", message = "La
-  // contraseña no es válida")
   private final String password;
 
   private final PhoneEntity[] phones;
