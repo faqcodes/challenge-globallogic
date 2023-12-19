@@ -70,7 +70,7 @@ curl --location 'http://localhost:8080/api/sign-up' \
 --data-raw '{
     "name": "andrea",
     "email": "andrea@test1.cl",
-    "password": "andreaAN1",
+    "password": "andreaAN12",
     "phones": [
         {
             "number": 123456789,

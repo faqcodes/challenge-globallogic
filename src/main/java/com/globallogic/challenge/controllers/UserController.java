@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.globallogic.challenge.configurations.security.JwtTokenProvider;
 import com.globallogic.challenge.domain.models.SigninResponse;
 import com.globallogic.challenge.domain.models.SignupRequest;
 import com.globallogic.challenge.domain.models.SignupResponse;
 import com.globallogic.challenge.domain.services.CreateUserService;
 import com.globallogic.challenge.domain.services.GetUserService;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Validated
 @RestController
 @CrossOrigin(origins = "*") // temporal
@@ -40,9 +38,14 @@ public class UserController extends BaseController {
 
   @PostMapping("/sign-up")
   public ResponseEntity<SignupResponse> signup(@Valid @RequestBody SignupRequest signupRequest) {
-    var createdUri = URI.create("");
+    final var jwtTokenProvider = new JwtTokenProvider();
+    final var createdUri = URI.create("");
 
-    var signupResponse = createUserService.create(signupRequest);
+    final var signupResponse = createUserService.create(signupRequest);
+
+    // Generate Token
+    final var token = jwtTokenProvider.createToken(signupResponse.getId());
+    signupResponse.setToken(token);
 
     // 201
     return ResponseEntity
@@ -52,11 +55,11 @@ public class UserController extends BaseController {
 
   @PostMapping("/login")
   public ResponseEntity<SigninResponse> signin() {
+    final var jwtTokenProvider = new JwtTokenProvider();
+    final var authentication = SecurityContextHolder.getContext().getAuthentication();
+    final var userId = authentication.getName();
 
-    var authentication = SecurityContextHolder.getContext().getAuthentication();
-    var userId = authentication.getName();
-    log.info("GET USERID: {}", userId);
-    var signinResponse = getUserService.get(userId);
+    final var signinResponse = getUserService.get(userId);
 
     // 200
     return ResponseEntity

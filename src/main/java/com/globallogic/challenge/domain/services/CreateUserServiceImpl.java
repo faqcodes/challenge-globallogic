@@ -1,9 +1,9 @@
 package com.globallogic.challenge.domain.services;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-import java.util.Map;
 import java.util.Arrays;
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,13 +13,9 @@ import com.globallogic.challenge.domain.entities.PhoneEntity;
 import com.globallogic.challenge.domain.entities.UserEntity;
 import com.globallogic.challenge.domain.models.SignupRequest;
 import com.globallogic.challenge.domain.models.SignupResponse;
-import com.globallogic.challenge.persistence.entities.PhoneData;
 import com.globallogic.challenge.persistence.entities.UserData;
 import com.globallogic.challenge.persistence.repositories.UserRepository;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Service
 public class CreateUserServiceImpl implements CreateUserService {
 
@@ -37,12 +33,9 @@ public class CreateUserServiceImpl implements CreateUserService {
         "El correo ya se encuentra registrado");
 
     final var mapper = new ModelMapper();
-    final var jwtTokenProvider = new JwtTokenProvider();
 
     // Get ID
     final var userId = UUID.randomUUID().toString();
-    // Generate Token
-    final var token = jwtTokenProvider.createToken(userId);
     // Create Phone for Entity: map phone model to var
     final var length = createRequest.getPhones() == null ? 0 : createRequest.getPhones().length;
     final var phones = length > 0 ? Arrays.copyOf(createRequest.getPhones(), length) : new PhoneEntity[] {};
@@ -52,7 +45,6 @@ public class CreateUserServiceImpl implements CreateUserService {
         .id(userId)
         .created(LocalDateTime.now())
         .lastLogin(LocalDateTime.now())
-        .token(token)
         .name(createRequest.getName())
         .email(createRequest.getEmail())
         .password(createRequest.getPassword())
@@ -63,6 +55,12 @@ public class CreateUserServiceImpl implements CreateUserService {
     final var userData = mapper.map(userEntity, UserData.class);
     final var userResult = userRepository.save(userData);
 
-    return mapper.map(userResult, SignupResponse.class);
+    final var signupResponse = mapper.map(userResult, SignupResponse.class);
+
+    // Generate Token
+    final var token = new JwtTokenProvider().createToken(userId);
+    signupResponse.setToken(token);
+
+    return signupResponse;
   }
 }
