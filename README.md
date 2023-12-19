@@ -70,7 +70,7 @@ curl --location 'http://localhost:8080/api/sign-up' \
 --data-raw '{
     "name": "andrea",
     "email": "andrea@test1.cl",
-    "password": "andreaAN12",
+    "password": "andreaA12",
     "phones": [
         {
             "number": 123456789,
@@ -90,13 +90,13 @@ curl --location --request POST 'http://localhost:8080/api/login' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZGMzN2JiYS01NzVjLTQ1MTUtYjRhNy1iOGRmNmE0NTA0ZWQiLCJpYXQiOjE3MDI2MTc3MDksImV4cCI6MTcwMjYxODAwOX0.afUH1nJN0Nf64yz5vuKjvHk4MU4-J_LtFLbmeOuOzFKG3SNmWit3jZ_LJr-31avlQSJPZy9c7yPwe6FsZx-e8w'
 ```
 
-ERROR al registrar un usuario (falta correo electrónico)
+ERROR al registrar un usuario (falta correo electrónico y contraseña incorrecta)
 ```
 curl --location 'http://localhost:8080/api/sign-up' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "name": "andrea",
-    "password": "andreaAN1",
+    "password": "andreaAAA12",
     "phones": [
         {
             "number": 123456789,

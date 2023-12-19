@@ -55,7 +55,6 @@ public class UserController extends BaseController {
 
   @PostMapping("/login")
   public ResponseEntity<SigninResponse> signin() {
-    final var jwtTokenProvider = new JwtTokenProvider();
     final var authentication = SecurityContextHolder.getContext().getAuthentication();
     final var userId = authentication.getName();
 
